@@ -1,20 +1,45 @@
-from calcul import Calcul
 import streamlit as st
 
-st.title("Bienvenue a Notre Calculatrice")
+class Calculator:
+    def __init__(self, value1, value2):
+        self.value1 = value1
+        self.value2 = value2
 
-valeur1 = st.number_input(
-    'Enter a number', min_value=0, max_value=100, key="m1")
-valeur2 = st.number_input(
-    'Enter a number', min_value=0, max_value=100, key="m2")
+    def add(self):
+        return self.value1 + self.value2
 
-mon_calcul = Calcul(valeur1, valeur2)
+    def subtract(self):
+        return self.value1 - self.value2
+
+    def multiply(self):
+        return self.value1 * self.value2
+
+    def divide(self):
+        try:
+            result = self.value1 / self.value2
+        except ZeroDivisionError:
+            result = "Cannot divide by 0"
+        return result
+
+st.title("Welcome to Our Calculator")
+
+value1 = st.number_input('Enter a number', key="value1")
+value2 = st.number_input('Enter a number', key="value2")
+
+calculator = Calculator(value1, value2)
 
 if st.button('Addition'):
-    st.write(f"addition:{mon_calcul.calcul_somme()}")
-if st.button('Soustraction'):
-    st.write(f"Soustraction:{mon_calcul.cacul_soustraction()}")
+    st.write(f"Addition: {calculator.add()}")
+
+if st.button('Subtraction'):
+    st.write(f"Subtraction: {calculator.subtract()}")
+
 if st.button('Division'):
-    st.write(f"Division:{mon_calcul.cacul_division()}")
+    st.write(f"Division: {calculator.divide()}")
+
 if st.button('Multiplication'):
-    st.write(f"Multiplication:{mon_calcul.cacul_multiplication()}")
+    st.write(f"Multiplication: {calculator.multiply()}")
+
+if st.button('Clear'):
+    st.session_state.value1 = 0
+    st.session_state.value2 = 0
